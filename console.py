@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import re
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -118,13 +119,46 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        tokens = args.split()
+        class_name =  tokens[0]
+        # print(class_name)
+        # print(tokens)
+        parameters = " ".join(tokens[1:])
+        # print(parameters)
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        
+        param_pairs = re.findall(r'(\w+)=(\"[\w\s\.]+\"|\d+(?:\.\d+)?)', parameters)
+        # print(param_pairs)
+        new_instance = HBNBCommand.classes[class_name]()
+        params_dict = {}
+        for key, value in param_pairs:
+            # value = value.strip('"').replace('_', ' ')
+            try:
+                if value.startswith('"') and value.endswith('"'):
+                    value = value.strip('"').replace('_', ' ')
+                elif '.' in value:
+                    value = float(value)
+                else:
+                    value = int(value)
+            except ValueError as e:
+                print(e)
+                continue
+            params_dict[key] = value
+            setattr(new_instance, key, value)
+
+        # Creating a new instance of the class with the provided parameters
+        
+        # new_instance = HBNBCommand.classes[class_name]()
+        new_instance.save()
         print(new_instance.id)
+        print(new_instance)
+        print(params_dict)
+        # new_instance = HBNBCommand.classes[args]()
         storage.save()
+        # print(new_instance.id)
+        # storage.save()
 
     def help_create(self):
         """ Help information for the create method """
