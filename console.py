@@ -130,10 +130,10 @@ class HBNBCommand(cmd.Cmd):
             return
 
         param_pairs = re.findall(
-            r'(\w+)=(\"[\w\s\.]+\"|\d+(?:\.\d+)?)',
+            r'(\w+)=(\"[\w\s\.]+\"|-?\d+(?:\.\d+)?)',
             parameters
         )
-        # print(param_pairs)
+        print(param_pairs)
         new_instance = HBNBCommand.classes[class_name]()
         params_dict = {}
         for key, value in param_pairs:
@@ -162,7 +162,8 @@ class HBNBCommand(cmd.Cmd):
         new_instance.save()
         storage.save()
         print(new_instance.id)
-        return new_instance.id
+        print(new_instance)
+        new_instance.id
         # storage.save()
 
     def help_create(self):
