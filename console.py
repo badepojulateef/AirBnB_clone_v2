@@ -120,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         tokens = args.split()
-        class_name =  tokens[0]
+        class_name = tokens[0]
         # print(class_name)
         # print(tokens)
         parameters = " ".join(tokens[1:])
@@ -128,8 +128,11 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        
-        param_pairs = re.findall(r'(\w+)=(\"[\w\s\.]+\"|\d+(?:\.\d+)?)', parameters)
+
+        param_pairs = re.findall(
+            r'(\w+)=(\"[\w\s\.]+\"|\d+(?:\.\d+)?)',
+            parameters
+        )
         # print(param_pairs)
         new_instance = HBNBCommand.classes[class_name]()
         params_dict = {}
@@ -149,13 +152,14 @@ class HBNBCommand(cmd.Cmd):
             setattr(new_instance, key, value)
 
         # Creating a new instance of the class with the provided parameters
-        
         # new_instance = HBNBCommand.classes[class_name]()
         new_instance.save()
         print(new_instance.id)
         print(new_instance)
         print(params_dict)
         # new_instance = HBNBCommand.classes[args]()
+        storage.new(new_instance)
+        new_instance.save()
         storage.save()
         # print(new_instance.id)
         # storage.save()
