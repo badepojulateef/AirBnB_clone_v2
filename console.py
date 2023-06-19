@@ -153,15 +153,16 @@ class HBNBCommand(cmd.Cmd):
 
         # Creating a new instance of the class with the provided parameters
         # new_instance = HBNBCommand.classes[class_name]()
-        new_instance.save()
-        print(new_instance.id)
-        print(new_instance)
-        print(params_dict)
+        # new_instance.save()
+        # print(new_instance.id)
+        # print(new_instance)
+        # print(params_dict)
         # new_instance = HBNBCommand.classes[args]()
         storage.new(new_instance)
         new_instance.save()
         storage.save()
-        # print(new_instance.id)
+        print(new_instance.id)
+        return new_instance.id
         # storage.save()
 
     def help_create(self):
