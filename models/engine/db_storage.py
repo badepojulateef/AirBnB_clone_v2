@@ -43,33 +43,21 @@ class DBStorage:
         """ returns a dictionary """
         object_dict = {}
         if cls:
-            pass
-            # objects = self.__session.query(cls).all()
-            # for object in objects:
-            #     key = "{}.{}".format(cls.__name__, object.id)
-            #     object_dict[key] = object
+            for object in self.__session.query(cls).all():
+                key = "{}.{}".format(type(cls).__name__, object.id)
+                object_dict[key] = object
         else:
             for class_model in class_models:
                 print(class_model.__name__)
-                for class_model in self.__session.query(class_model):
-                    pass
-
-            # for obj in self.__session.query(City, State, User, Place,
-            #                                 Review, Amenity).all():
-            #     key = "{}.{}".format(type(obj).__name__, obj.id)
-            #     print(obj)
-                # object_dict[key] = obj
-
-            # for class_model in class_models:
-            #     for object in self.__session.query(class_model):
-            #         key = "{}.{}".format(type(object).__name__, object.id)
-            #         object_dict[key] = class_model
+                for object in self.__session.query(class_model).all():
+                    key = "{}.{}".format(type(object).__name__, object.id)
+                    object_dict[key] = object
         
         return object_dict
     
     def new(self, obj):
         """ adds obj to session """
-        # self.__session.add(obj)
+        self.__session.add(obj)
 
     def save(self):
         """ commits changes to the current db """
