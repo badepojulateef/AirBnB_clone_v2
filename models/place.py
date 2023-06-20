@@ -20,7 +20,7 @@ class Place(BaseModel):
         longitude = Column(Float)
 
         city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
-        user_id = Column(String(60), ForeignKey("cities.id"), nullable=False) 
+        user_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
 
         # relationship("Place", backref="user", cascade="all, delete-orphan")
     else:
@@ -35,3 +35,7 @@ class Place(BaseModel):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = []
+
+        def __init__(self, *args, **kwargs):
+            """ Initializes place """
+            super().__init__(*args, **kwargs)
