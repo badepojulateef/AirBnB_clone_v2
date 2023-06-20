@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
-from sqlalchemy.orm import relationship
 from models.base_model import BaseModel
-from models import storage_type
 
 
 class Place(BaseModel):
     """ A place to stay """
+<<<<<<< HEAD
     if storage_type == 'db':
         __table__name = 'places'
         name = Column(String(128), nullable=False)
@@ -39,3 +37,16 @@ class Place(BaseModel):
         def __init__(self, *args, **kwargs):
             """ Initializes place """
             super().__init__(*args, **kwargs)
+=======
+    city_id = ""
+    user_id = ""
+    name = ""
+    description = ""
+    number_rooms = 0
+    number_bathrooms = 0
+    max_guest = 0
+    price_by_night = 0
+    latitude = 0.0
+    longitude = 0.0
+    amenity_ids = []
+>>>>>>> parent of be54c57... added task 8
