@@ -8,7 +8,7 @@ from models import storage_type
 
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
-    if storage_type == 'db':
+    if getenv("HBNB_TYPE_STORAGE") == 'db':
         __tablename__ = "users"
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
