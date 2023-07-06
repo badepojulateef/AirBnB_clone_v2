@@ -17,10 +17,12 @@ def do_pack():
     Returns:
         str: Path to the created archive on success, None on failure.
     """
+    now = datetime.now()
+    timestamp = now.strftime("%Y%m%d%H%M%S")
+
     try:
-        local("mkdir -p versions")
-        now = datetime.now()
-        timestamp = now.strftime("%Y%m%d%H%M%S")
+        if not os.path.isdir(versions):
+            local("mkdir -p versions")
         archive_name = "web_static_{}.tgz".format(timestamp)
         archive_path = "versions/{}".format(archive_name)
         local("tar -czvf {} web_static".format(archive_path))
