@@ -12,7 +12,10 @@ env.hosts = ['107.22.142.218']
 
 def do_pack():
     """
-    generates a .tgz archive from the contents
+    Compresses the web_static directory into a .tgz file.
+
+    Returns:
+        str: Path to the created archive on success, None on failure.
     """
     try:
         local("mkdir -p versions")
