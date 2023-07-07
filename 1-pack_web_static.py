@@ -1,34 +1,29 @@
 #!/usr/bin/python3
-"""
-A Fabric script that generates a .tgz archive from the contents
-"""
+"""A module for web application deployment with Fabric."""
 import os
-from fabric.api import local, env
 from datetime import datetime
-
-env.user = 'ubuntu'
-env.hosts = ['107.22.142.218']
+from fabric.api import local, runs_once
 
 
+@runs_once
 def do_pack():
-    """
-    Compresses the web_static directory into a .tgz file.
-
-    Returns:
-        str: Path to the created archive on success, None on failure.
-    """
-    now = datetime.now()
-    timestamp = now.strftime("%Y%m%d%H%M%S")
-
+    """Archives the static files."""
+    if not os.path.isdir("versions"):
+        os.mkdir("versions")
+    cur_time = datetime.now()
+    archive_path = "versions/web_static_{}{}{}{}{}{}.tgz".format(
+        cur_time.year,
+        cur_time.month,
+        cur_time.day,
+        cur_time.hour,
+        cur_time.minute,
+        cur_time.second
+    )
     try:
-        if not os.path.isdir(versions):
-            local("mkdir -p versions")
-        archive_name = "web_static_{}.tgz".format(timestamp)
-        archive_path = "versions/{}".format(archive_name)
-        local("tar -czvf {} web_static".format(archive_path))
-        if os.path.exists(archive_path):
-            return archive_path
-        else:
-            return None
-    except Exception as e:
-        return None
+        print("Packing web_static to {}".format(archive_path))
+        local("tar -cvzf {} web_static".format(archive_path))
+        archize_size = os.stat(res).st_size
+        print("web_static packed: {} -> {} Bytes".format(archive_path, archize_size))
+    except Exception:
+        archive_path = None
+    return archive_path
